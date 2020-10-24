@@ -22,21 +22,7 @@ object ScalaProducerExample extends App {
     var src = scala.io.Source.fromFile("dataset_smol.csv").getLines.map(_.split(",")(2))
 
     val covid_list = Seq(
-        "SARS CoV-2",
-        "covid19",
-        "corona", 
-        "fever",
-        "dry cough",
-        "tiredness",
-        "pains",
-        "I HAVE CORONA",
-        "I HAVE COVID19",
-        "I am sick and am going to party and dance",
-        "sore throat",
-        "diarrhoea",
-        "conjunctivitis",
-        "headache",
-        "loss of taste or smell"
+        "SARS CoV-2","covid19", "corona", "fever", "dry cough", "tiredness","pains", "I HAVE CORONA","I HAVE COVID19", "I am sick and am going to party and dance", "sore throat", "diarrhoea", "conjunctivitis", "headache", "loss of taste or smell"
     )
 
     val Covid_prob = 0.2
