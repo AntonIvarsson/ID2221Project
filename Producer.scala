@@ -6,7 +6,7 @@ import scala.collection.mutable.ListBuffer
 
 object ScalaProducerExample extends App {
     def getRandomMessage: String = {
-        if(src.hasNext == False) {
+        if(!(src.hasNext)) {
             src = file.getLines.map(_.split(",")(2))
         }
         var line = src.next().toString
@@ -14,7 +14,7 @@ object ScalaProducerExample extends App {
         var y = (rnd.nextGaussian()* y_var + y_mean).toString
         var messages : String = ""
     
-        if(random.nextDouble() > (1 - Covid_prob)) {
+        if(rnd.nextDouble() > (1 - Covid_prob)) {
             var i = rnd.nextInt(line.length);
             messages = x + ", " + y +", " + line.slice(1, i) + " " + covid_list(rnd.nextInt(covid_list.length)) + " " + line.slice(i,line.length)
         } else { messages = x + ", " + y +", " + line }
