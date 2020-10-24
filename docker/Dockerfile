@@ -7,7 +7,7 @@ RUN yum -y update;
 RUN yum -y clean all;
 
 # Install basic tools
-RUN yum install -y  wget dialog curl sudo lsof vim axel telnet nano bzip2 passwd tar bc git unzip
+RUN yum install -y  wget dialog curl sudo lsof vim axel telnet nano openssh-server openssh-clients bzip2 passwd tar bc git unzip
 
 #Install Java
 RUN yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel 
@@ -41,22 +41,30 @@ RUN bash Anaconda2-4.4.0-Linux-x86_64.sh -b
 ENV PATH $HOME/anaconda2/bin:$PATH
 RUN conda install python=2.7.10 -y
 
+#Install Jupyer notebook + Toree Scala kernel
+RUN conda install jupyter -y 
+
 USER root
 
 #Install Cassandra
 ADD datastax.repo /etc/yum.repos.d/datastax.repo
 RUN yum install -y datastax-ddc
-RUN echo "/usr/lib/python2.7/site-packages" | tee /home/guest/anaconda2/lib/python2.7/site-packages/cqlshlib.pth
+RUN echo "/usr/lib/python2.7/site-packages" |tee /home/guest/anaconda2/lib/python2.7/site-packages/cqlshlib.pth
 
 #Environment variables for Spark and Java
 ADD setenv.sh /home/guest/setenv.sh
 RUN chown guest:guest setenv.sh
 RUN echo . ./setenv.sh >> .bashrc
 
-#Startup (Cassandra, Zookeeper, Kafka producer)
+#Startup (start SSH, Cassandra, Zookeeper, Kafka producer)
 ADD startup_script.sh /usr/bin/startup_script.sh
 RUN chmod +x /usr/bin/startup_script.sh
 
-#Add sbt 
+#Add sbt
 RUN curl https://bintray.com/sbt/rpm/rpm | sudo tee /etc/yum.repos.d/bintray-sbt-rpm.repo
-RUN yum install sbt
+RUN yum install -y sbt
+
+# Add source code
+#ADD consumer /home/guest/consumer
+#ADD producer /home/guest/producer
+#ADD notebooks /home/guest/notebooks

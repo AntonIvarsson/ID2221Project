@@ -56,7 +56,7 @@ object KafkaSpark {
       val STEP_Y = 2470/ GRID_RES
       val indices = 0 to GRID_CELLS
       indices.minBy(index => {
-          val x = index % GRID_RES * STEP_X + STEP_X / 2
+          val x = (index % GRID_RES) * STEP_X + STEP_X / 2
           val y = (index / GRID_RES).floor * STEP_Y + STEP_Y / 2
           sqrt(pow(x - p._1, 2) + pow(y - p._2, 2))
       })
