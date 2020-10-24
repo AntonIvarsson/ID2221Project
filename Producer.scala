@@ -6,8 +6,8 @@ import scala.collection.mutable.ListBuffer
 
 object ScalaProducerExample extends App {
     def getRandomMessage: String = {
-        if(!(src.hasNext)) {
-            src = file.getLines.map(_.split(",")(2))
+        if(!src.hasNext) {
+            src = scala.io.Source.fromFile("dataset_smol.csv").getLines.map(_.split(",")(2))
         }
         var line = src.next().toString
         var x = (rnd.nextGaussian()* x_var + x_mean).toString
@@ -21,16 +21,13 @@ object ScalaProducerExample extends App {
         messages
     }
     var covid_list = scala.io.Source.fromFile("covidlist.csv").getLines.toList
-    var file = scala.io.Source.fromFile("dataset_smol.csv")
-    var src = file.getLines.map(_.split(",")(2))
+    var src = scala.io.Source.fromFile("dataset_smol.csv").getLines.map(_.split(",")(2))
     
     val Covid_prob = 0.2
-    val X_RANGE = 3480 
-    val Y_RANGE = 2470 
-    val x_mean = X_RANGE / 2
-    val x_var  = 100
-    val y_mean = Y_RANGE / 2
-    val y_var  = 100
+    val x_mean = 0.0
+    val x_var  = 1.0
+    val y_mean = 0.0
+    val y_var  = 1.0
     
     val events = 10000
     val topic = "covid"
