@@ -33,6 +33,8 @@ object KafkaSpark {
                         "zookeeper.connect" -> "localhost:2181",
                         "group.id" -> "kafka-spark-streaming",
                         "zookeeper.connection.timeout.ms" -> "1000")
+      
+    val covid_list = scala.io.Source.fromFile("covidlist.csv").getLines.toList
     
     val sc = new SparkConf().setAppName("SparkStreaming").setMaster("local")
     val ssc = new StreamingContext(sc, Seconds(10))
@@ -45,7 +47,7 @@ object KafkaSpark {
       val split = x.split(", ")
       ((split(0).toDouble, split(1).toDouble), split.drop(2).mkString(""))
     })
-    .filter(p => true)
+    .filter(p => covid_list.exists(p.contains))
 
     val getIndex = (p: (Double, Double)) => {
       val GRID_RES = 10
