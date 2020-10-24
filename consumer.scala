@@ -27,7 +27,6 @@ object KafkaSpark {
       
     session.execute("CREATE KEYSPACE IF NOT EXISTS covid WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor': 1 };")
     session.execute("CREATE TABLE IF NOT EXISTS covid.cell_counts (cell float PRIMARY KEY, count float);")
-    println("CASSANDRA")
 
     // make a connection to Kafka and read (key, value) pairs from it
     val kafkaConf = Map("metadata.broker.list" -> "localhost:9092",
@@ -41,11 +40,12 @@ object KafkaSpark {
 
     val messages = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaConf, Set("covid"))
     val variable_name = messages.map(_._2)
-    val pairs = variable_name.map(x => {
+    val pairs = variable_name
+    .map(x => {
       val split = x.split(", ")
       ((split(0).toDouble, split(1).toDouble), split.drop(2).mkString(""))
     })
-    pairs.print()
+    .filter(p => true)
 
     val getIndex = (p: (Double, Double)) => {
       val GRID_RES = 10
@@ -59,20 +59,21 @@ object KafkaSpark {
           sqrt(pow(x - p._1, 2) + pow(y - p._2, 2))
       })
     }
-    val index_messsage = pairs.map(p => (getIndex(p._1), p._2))
-    index_messsage.print() 
+    val indexes = pairs.map(p => (getIndex(p._1), 1))
 
-    // measure the average value for each key in a stateful manner
-    // val mappingFunc = (key: String, value: Option[Double], state: State[Double]) => {
-    //   val prevAvg = state.getOption.getOrElse(0.0)
-    //   val N = 10
-    //   val avg = prevAvg - (prevAvg / N) + (value.getOrElse(0.0) / N)
-    //   state.update(avg)
-    //   (key, avg)
-    // }
-    // val stateDstream = pairs.mapWithState(StateSpec.function(mappingFunc))
+    // keep count for each index in stateful manner
+    val mappingFunc = (key: Int, value: Option[Int], state: State[Map[Int, Int]]) => {
+      val prevState = state.getOption.getOrElse(Map[Int, Int]().withDefaultValue(0))
+      val count = prevState(key) + 1
+      val newState = prevState + (key -> count)
+      state.update(newState)
+      (key, count)
+    }
+    val stateDstream = indexes.mapWithState(StateSpec.function(mappingFunc))
+    stateDstream.print()
+
     // store the result in Cassandra
-    // stateDstream.saveToCassandra("avg_space", "avg")
+    // stateDstream.saveToCassandra("covid", "cell_counts")
 
     ssc.start()
     ssc.awaitTermination()
