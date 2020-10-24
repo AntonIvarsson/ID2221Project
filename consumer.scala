@@ -48,7 +48,7 @@ object KafkaSpark {
       ((split(0).toDouble, split(1).toDouble), split.drop(2).mkString(""))
     })
     .filter(p => covid_list.exists(p.contains))
-
+    
     val getIndex = (p: (Double, Double)) => {
       val GRID_RES = 10
       val GRID_CELLS = GRID_RES * GRID_RES
