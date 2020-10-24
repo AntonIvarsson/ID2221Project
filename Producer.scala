@@ -6,7 +6,7 @@ import scala.collection.mutable.ListBuffer
 
 object ScalaProducerExample extends App {
     def getRandomMessage: String = {
-        if(!src.hasNext) {
+        if(! src.hasNext) {
             src = scala.io.Source.fromFile("dataset_smol.csv").getLines.map(_.split(",")(2))
         }
         var line = src.next().toString
