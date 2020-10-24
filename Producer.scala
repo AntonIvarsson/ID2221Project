@@ -20,27 +20,10 @@ object ScalaProducerExample extends App {
         } else { messages = x + ", " + y +", " + line }
         messages
     }
+    var covid_list = scala.io.Source.fromFile("covidlist.csv").getLines.toList
     var file = scala.io.Source.fromFile("dataset_smol.csv")
     var src = file.getLines.map(_.split(",")(2))
-
-    val covid_list = Seq(
-        "SARS CoV-2",
-        "covid19",
-        "corona", 
-        "fever",
-        "dry cough",
-        "tiredness",
-        "pains",
-        "I HAVE CORONA",
-        "I HAVE COVID19",
-        "I am sick and am going to party and dance",
-        "sore throat",
-        "diarrhoea",
-        "conjunctivitis",
-        "headache",
-        "loss of taste or smell"
-    )
-
+    
     val Covid_prob = 0.2
     val x_mean = 0.0
     val x_var  = 1.0
@@ -48,7 +31,7 @@ object ScalaProducerExample extends App {
     val y_var  = 1.0
     
     val events = 10000
-    val topic = "corona"
+    val topic = "covid"
     val brokers = "localhost:9092"
     val rnd = new Random()
 
