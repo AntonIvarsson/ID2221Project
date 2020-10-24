@@ -25,10 +25,12 @@ object ScalaProducerExample extends App {
     var src = file.getLines.map(_.split(",")(2))
     
     val Covid_prob = 0.2
-    val x_mean = 0.0
-    val x_var  = 1.0
-    val y_mean = 0.0
-    val y_var  = 1.0
+    val X_RANGE = 3480 
+    val Y_RANGE = 2470 
+    val x_mean = X_RANGE / 2
+    val x_var  = 100
+    val y_mean = Y_RANGE / 2
+    val y_var  = 100
     
     val events = 10000
     val topic = "covid"
