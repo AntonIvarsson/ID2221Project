@@ -10,8 +10,8 @@ object ScalaProducerExample extends App {
             src = scala.io.Source.fromFile("dataset_smol.csv").getLines.map(_.split(",")(2))
         }
         var line = src.next().toString
-        var x = (rnd.nextGaussian() * x_var + x_mean).toString
-        var y = (rnd.nextGaussian() * y_var + y_mean).toString
+        var x = (rnd.nextGaussian()* x_var + x_mean).toString
+        var y = (rnd.nextGaussian()* y_var + y_mean).toString
         var messages : String = ""
     
         if(rnd.nextDouble() > (1 - Covid_prob)) {
@@ -24,12 +24,10 @@ object ScalaProducerExample extends App {
     var src = scala.io.Source.fromFile("dataset_smol.csv").getLines.map(_.split(",")(2))
     
     val Covid_prob = 0.2
-    val X_number = 3480 / 2
-    val Y_number = 2470 / 2
-    val x_mean = X_number
-    val x_var  = 100
-    val y_mean = Y_number
-    val y_var  = 123
+    val x_mean = 0.0
+    val x_var  = 1.0
+    val y_mean = 0.0
+    val y_var  = 1.0
     
     val events = 10000
     val topic = "covid"
