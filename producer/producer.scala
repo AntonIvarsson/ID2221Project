@@ -10,7 +10,7 @@ object ScalaProducerExample extends App {
         if(! src.hasNext) {
             src = scala.io.Source.fromFile("dataset_smol.csv").getLines.map(_.split(",")(2))
         }
-        if(count % 25 == 0) {
+        if(count % 2500 == 0) {
             x_mean = rnd.nextInt(3480)
             y_mean = rnd.nextInt(2470)
         }
@@ -32,9 +32,9 @@ object ScalaProducerExample extends App {
     var count = 0 
     val Covid_prob = 0.2
     var x_mean = rnd.nextInt(3480)
-    val x_var  = 500
+    val x_var  = 50
     var y_mean = rnd.nextInt(2470)
-    val y_var  = 500
+    val y_var  = 50
     
     var covid_list = scala.io.Source.fromFile("covidlist.csv").getLines.toList
     var src = scala.io.Source.fromFile("dataset_smol.csv").getLines.map(_.split(",")(2))
