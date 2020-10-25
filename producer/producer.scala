@@ -6,8 +6,13 @@ import scala.collection.mutable.ListBuffer
 
 object ScalaProducerExample extends App {
     def getRandomMessage: String = {
+        count = count + 1
         if(! src.hasNext) {
             src = scala.io.Source.fromFile("dataset_smol.csv").getLines.map(_.split(",")(2))
+        }
+        if(count % 25 == 0) {
+            x_mean = rnd2.nextInt(3480)
+            y_mean = rnd2.nextInt(2470)
         }
         var line = src.next().toString
         var x = (rnd.nextGaussian()* x_var + x_mean).toString
@@ -20,19 +25,19 @@ object ScalaProducerExample extends App {
         } else { messages = x + ", " + y +", " + line }
         messages
     }
-    var covid_list = scala.io.Source.fromFile("covidlist.csv").getLines.toList
-    var src = scala.io.Source.fromFile("dataset_smol.csv").getLines.map(_.split(",")(2))
-    
+    val rnd = new Random()
+
+    var count = 0 
     val Covid_prob = 0.2
-    val x_mean = 0.0
-    val x_var  = 1.0
-    val y_mean = 0.0
-    val y_var  = 1.0
+    var x_mean = rnd.nextInt(3480)
+    val x_var  = 500
+    var y_mean = rnd.nextInt(2470)
+    val y_var  = 500
     
     val events = 10000
     val topic = "covid"
     val brokers = "localhost:9092"
-    val rnd = new Random()
+
 
     val props = new Properties()
     props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, brokers)
