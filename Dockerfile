@@ -65,6 +65,6 @@ RUN curl https://bintray.com/sbt/rpm/rpm | sudo tee /etc/yum.repos.d/bintray-sbt
 RUN yum install -y sbt
 
 # Add source code
-ADD ../consumer /home/guest/consumer
-ADD ../producer /home/guest/producer
-ADD ../notebooks /home/guest/notebooks
+ADD consumer /home/guest/consumer
+ADD producer /home/guest/producer
+ADD notebooks /home/guest/notebooks
