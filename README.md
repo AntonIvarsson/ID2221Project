@@ -1,6 +1,6 @@
 # ID2221Project
 
-To run
+Before running, make sure that Docker has at least 4GB of memory resources for the container.
 
 ### Build image and connect to container
 
