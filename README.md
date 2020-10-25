@@ -9,7 +9,7 @@ docker build -t kafka-sparkstreaming-cassandra .
 ```
 
 ```
-docker run -v `pwd`:/home/guest/host -p 4040:4040 -p 8888:8888 -p 23:22 -ti --privileged kafka-sparkstreaming-cassandra
+docker run -p 4040:4040 -p 8888:8888 -p 23:22 -ti --privileged kafka-sparkstreaming-cassandra
 ```
 
 ### Run setup
@@ -21,21 +21,21 @@ sh setenv.sh
 ### Open two additonal shells
 Get the container id
 ```
-docker ps
+docker container ls 
 ```
 
-Do twice
+Open two terminal sessions (one for consumer one for producer)
 ```
 docker exec -it <CONTAINER_ID> /bin/bash
 ```
 
-Start consumer
+Start consumer in first terminal session
 ```
 cd consumer
 sbt run
 ```
 
-Start producer
+Start producer in second terminal session
 ```
 cd producer
 sbt run
