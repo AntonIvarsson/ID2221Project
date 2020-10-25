@@ -10,7 +10,7 @@ In this project, we implemented an end-to-end data processing pipeline to mimic 
  
 Our approach was to build a data producer using Scala, which would produce social media messages tagged with a location which given random probability would contain COVID-19 keyword indicators. Then, these messages are piped to Kafka which acts as a message broker for the consumer program. The consumer program then consumes the messages from Kafka using Spark Streaming. The messages are then filtered and transformed to a compact format grid index (representing a point in Stockholm) and the counts of messages are aggregated over time. These counts are written to Cassandra and then finally used in the dashboard to display the counts of messages in different areas in Stockholm.
  
-An instruction on how to run this project is specified in the readme.md file
+An instruction on how to run this project is specified in the readme.md file.
  
 # Method
  
@@ -34,7 +34,7 @@ Each message is created iteratively and continuously sent by the producer to the
  
 ## Consumer (Spark Streaming + Cassandra)
  
-The consumer works by reading the incoming data stream of messages from Kafka. The messages received are of the format `<LONGITUDE>, <LATITUDE>, <MESSAGE>`. This incoming message is then split up using the `map` function to get the coordinate and message string. Then, a filtering function processes the stream and removes messages which do not contain a COVID keyword using the `filter` function. Then, each message is mapped to it's nearest grid cell on a 10x10 grid of Stockholm using the `map` function, each grid cell is given a unique index from 0-99. Now the stream is of `(grid_cell, 1)` so each element represents a grid cell and a count of a COVID flagged message in that grid cell. The `mapWithState` function is then used in combination with a state which is a `Map[Int, Int]` which maps each grid cell to a count of COVID flagged messages in the grid cell. `mapWithState` then aggregates the incoming data stream information to increment the counts for the grid cells. The consumer then writes this continuously updated state aggregation to Cassandra.
+The consumer works by reading the incoming data stream of messages from Kafka. The messages received are of the format `<LONGITUDE>, <LATITUDE>, <MESSAGE>`. This incoming message is then split up using the `map` function to get the coordinate and message string. Then, a filtering function processes the stream and removes messages which do not contain a COVID keyword using the `filter` function. Then, each message is mapped to it's nearest grid cell on a 100x100 grid of Stockholm using the `map` function, each grid cell is given a unique index from 0-99. Now the stream is of `(grid_cell, 1)` so each element represents a grid cell and a count of a COVID flagged message in that grid cell. The `mapWithState` function is then used in combination with a state which is a `Map[Int, Int]` which maps each grid cell to a count of COVID flagged messages in the grid cell. `mapWithState` then aggregates the incoming data stream information to increment the counts for the grid cells. The consumer then writes this continuously updated state aggregation to Cassandra.
  
 ## Dashboard (Jupyter Notebook)
  
