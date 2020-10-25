@@ -25,6 +25,8 @@ object ScalaProducerExample extends App {
         } else { messages = x + ", " + y +", " + line }
         messages
     }
+
+
     val rnd = new Random()
 
     var count = 0 
@@ -34,6 +36,9 @@ object ScalaProducerExample extends App {
     var y_mean = rnd.nextInt(2470)
     val y_var  = 500
     
+    var covid_list = scala.io.Source.fromFile("covidlist.csv").getLines.toList
+    var src = scala.io.Source.fromFile("dataset_smol.csv").getLines.map(_.split(",")(2))
+
     val events = 10000
     val topic = "covid"
     val brokers = "localhost:9092"
