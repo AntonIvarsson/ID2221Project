@@ -20,6 +20,14 @@ The consumer works by reading the incoming data stream of messages from Kafka. T
 
 ## Dashboard (Jupyter Notebook)
 
+The dashbard was created as a python program in the jupyter notebook format. Running the entire notebook visualizes the data stored in Cassandra by drawing clusters on a map of Stockholm. The notebook works by doing the following: 
+* Fetch data from Cassandra and save it to an array where each item is a tuple of grid index and count for said index.
+* Calculate the sizes of the clusters to be drawn. 
+  * The size of each cluster proportional to the percentage of total covid tweets that are in that specific area. 
+* Draw the clusters on a map of Stockholm. 
+
+This dashboard could be used by Folkhälsomyndigheten to determine which areas of the city  require action to reduce the spread of the virus.
+
 # Conclusion 
 
 The data pipeline that we built was able to handle an incoming data stream with high volume and velocity (100s of messages per second) and able to aggregate this incoming stream into a compact format for further analysis with little data storage overhead. The project could be further improved by testing the pipeline on a distributed cluster and seeing if the system can be further stress tested with data incoming from several different producers. 
