@@ -75,7 +75,7 @@ object KafkaSpark {
     stateDstream.print()
 
     // store the result in Cassandra
-    // stateDstream.saveToCassandra("covid", "cell_counts")
+    stateDstream.saveToCassandra("covid", "cell_counts")
 
     ssc.start()
     ssc.awaitTermination()
