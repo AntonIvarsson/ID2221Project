@@ -47,7 +47,7 @@ object KafkaSpark {
       val split = x.split(", ")
       ((split(0).toDouble, split(1).toDouble), split.drop(2).mkString(""))
     })
-    .filter(p => covid_list.exists(p._3.contains))
+    .filter(p => covid_list.exists(p._2.contains))
     
     val getIndex = (p: (Double, Double)) => {
       val GRID_RES = 10
