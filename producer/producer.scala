@@ -11,8 +11,8 @@ object ScalaProducerExample extends App {
             src = scala.io.Source.fromFile("dataset_smol.csv").getLines.map(_.split(",")(2))
         }
         if(count % 25 == 0) {
-            x_mean = rnd2.nextInt(3480)
-            y_mean = rnd2.nextInt(2470)
+            x_mean = rnd.nextInt(3480)
+            y_mean = rnd.nextInt(2470)
         }
         var line = src.next().toString
         var x = (rnd.nextGaussian()* x_var + x_mean).toString
