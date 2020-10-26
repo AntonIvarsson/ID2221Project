@@ -25,7 +25,7 @@ it then creates messages by generating x and y coordinates together with a twitt
 The generation of the x and y coordinates are created randomly following a gaussian distribution, where the mean is changed randomly each 2500th message and the variance is fixed. The 115 twitter messages used by the producer are continuously looped, so that the producer always has messages to work with.
  
 A injected message could look like this:
-<1932.9, 988.0, "original message original message **COVID-WORD** original message"> and a non-injected message without the COVID-WORD present.
+`<1932.9, 988.0, "original message original message **COVID-WORD** original message">` and a non-injected message without the COVID-WORD present.
  
 Each message is created iteratively and continuously sent by the producer to the kafka queue. The messages sent to kafka is partitioned in the topic "covid",
 (a topic that is subscribed by the consumer).
