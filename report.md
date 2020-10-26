@@ -40,7 +40,7 @@ The consumer works by reading the incoming data stream of messages from Kafka. T
  
 The dashboard was created as a python program in the jupyter notebook format. Running the entire notebook visualizes the data stored in Cassandra by drawing clusters on a map of Stockholm. This is illustrated in the image below:
  
-<p align="center"><img align = "center" src="map.png" width="80%"></p>
+<p align="center"><img align = "center" src="images/map.png" width="80%"></p>
  
 The notebook works by doing the following:
 * Fetch data from Cassandra and save it to an array where each item is a tuple of grid index and count for said index.
